@@ -1,0 +1,61 @@
+
+.waybill-form {
+    min-width: 150px;
+    margin: 0;
+    padding: 0 20pt 0 20pt;
+}
+
+.matFormField {
+    padding: 0;
+    /*background-color: grey;
+    border: 1px dashed rgb(85, 85, 85);*/
+}
+
+h3 {
+    text-align: center;
+    margin: 20pt 0 40pt 0;
+
+    font-family: 'Ubuntu Condensed', sans-serif;
+    letter-spacing: 2px;
+    font-size: 15pt;
+    text-transform: uppercase;
+    transition: color .2s;
+}
+.form-line-wrapper {
+    padding-bottom: 10pt;
+    /*background-color: red;*/
+}
+
+button {
+  margin-right: 8px;
+}
+.right button {
+    float: right;
+}
+.btnSave {
+}
+.spinner {
+    display: inline-block;
+}
+.saving {
+    display: none;
+}
+
+
+.section {
+    display: inline-block;
+    border-radius: 4px;
+    box-shadow: 0 2px 2px rgba(0,0,0,.24), 0 0 2px rgba(0,0,0,.12);
+    
+}
+.section h3 {
+    margin: 0;
+    padding: 8px 20px;
+    border-radius: 4px 4px 0 0;
+    text-align: left;
+    color: rgba(0,0,0,.54);
+    background: rgba(0,0,0,.13);
+}
+.fuel {
+    padding: 8px 20px;
+}

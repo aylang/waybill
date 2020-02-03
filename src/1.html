@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Waybill</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4/stitch.js"></script>
+  <script type="text/javascript">
+        
+    // Initialize the App Client
+    const client = stitch.Stitch.initializeDefaultAppClient("waybill-igzxf");
+
+    // Get a MongoDB Service Client
+    const mongodb = client.getServiceClient(
+      stitch.RemoteMongoClient.factory,
+      "mongodb-atlas"
+    );
+    // Get a reference to the blog database
+    const db = mongodb.db("test");
+
+    function displayComments() {
+        
+        db.collection("waybulllist")
+          .find({}, {limit: 1000})
+          .toArray()
+          .then(docs => {
+            alert(2)
+            const html = docs.map(doc => `<div>${doc.comment}</div>`);
+            alert(html)
+            document.getElementById("comments").innerHTML = html;
+          })          
+          .errorCatch(alert(9));
+    }      
+  </script>
+
+</head>
+<body onload="displayComments()">
+  <div id="comments"></div>
+</body>
+</html>

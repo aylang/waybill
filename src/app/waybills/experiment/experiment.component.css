@@ -1,0 +1,12 @@
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  .before {
+      float: left;
+      min-width: 250px;
+  }
+  .after {
+      float: right;
+  }

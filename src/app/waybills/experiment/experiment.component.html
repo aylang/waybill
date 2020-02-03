@@ -1,0 +1,20 @@
+
+<ng-container *ngFor="let wb of (data$ | async); let i=index">
+  <div class="clearfix">
+    <h2>{{i}}. {{wb._id}}</h2>
+    <div class="before">
+      <p>wb.fuelLitres={{wb.fuelLitres}}</p>
+      <p>wb.fuelCost={{wb.fuelCost}}</p>
+      <p>wb.fuelStation={{wb.fuelStation}}</p>
+    </div>
+    <div class="before">
+      <button mat-button (click)="fill(wb)">Заполнить</button>
+      
+      <button mat-button (click)="clear(wb)">Отчистить</button>
+    </div>
+    <div class="">
+      <p>wb.notFuel={{wb.notFuel}}</p>
+      <p>wb.fuel={{wb.fuel | json}}</p>
+    </div>
+  </div>
+</ng-container>

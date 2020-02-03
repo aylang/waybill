@@ -1,0 +1,141 @@
+<h3>Путевой лист</h3>
+
+<form class="waybill-form">
+<div class="red-wrapper">
+  <div class="form-line-wrapper">
+    
+    <app-date   [(value)]="waybill.date"></app-date>
+  
+    <app-input  [(value)]="waybill.shift" 
+                [placeholder]="'Смена'" 
+                [autocomplete]="['1', '2']"></app-input>  
+  </div>
+
+  <div class="form-line-wrapper">
+    <app-input  [(value)]="waybill.dump" 
+                [placeholder]="'Гос.номер машины'" 
+                [autocompleteObservable]="service.getField('dump')"></app-input>   
+
+    <app-input  [(value)]="waybill.driver" 
+                [placeholder]="'Водитель'" 
+                [autocompleteObservable]="service.getField('driver')"></app-input>   
+  </div>
+
+  <div class="form-line-wrapper">
+    <app-input  [(value)]="waybill.customer" 
+                (valueChange)="setCustomerValue($event)"
+                [placeholder]="'Заказчик'" 
+                [autocompleteObservable]="customers$"></app-input>    
+               
+    <app-input  [(value)]="waybill.loading" 
+                [placeholder]="'Погрузка'" 
+                [autocompleteObservable]="loading$"></app-input> 
+               
+    <app-input  [(value)]="waybill.unloading" 
+                [placeholder]="'Разгрузка'" 
+                [autocompleteObservable]="unloading$"></app-input>
+  </div>
+
+  <div class="form-line-wrapper">
+    <mat-form-field class="matFormField">
+      <input matInput placeholder="Рейсов" [(ngModel)]="waybill.rides" name="rides">
+    </mat-form-field>
+
+    <mat-form-field class="matFormField">
+      <input matInput placeholder="Плечо" [(ngModel)]="waybill.distance" name="distance">
+    </mat-form-field>
+  </div>
+
+  <div class="form-line-wrapper">
+    <mat-form-field class="matFormField">
+      <input matInput placeholder="Тонн" [(ngModel)]="waybill.ton" name="ton">
+    </mat-form-field>
+
+    <mat-form-field class="matFormField">
+      <input matInput placeholder="Кубов" [(ngModel)]="waybill.cube" name="cube">
+    </mat-form-field>
+
+    <mat-form-field class="matFormField">
+      <input matInput placeholder="Часов" [(ngModel)]="waybill.hour" name="hour">
+    </mat-form-field>
+  </div>
+  
+  <div class="form-line-wrapper">
+    <mat-form-field class="matFormField">
+      <input matInput placeholder="Заправлено, литров" [(ngModel)]="waybill.fuelLitres" name="fuelLitres">
+    </mat-form-field>
+
+    <mat-form-field class="matFormField">
+      <input matInput placeholder="Заправлено, руб" [(ngModel)]="waybill.fuelCost" name="fuelCost">
+    </mat-form-field>
+               
+    <app-input  [(value)]="waybill.fuelStation" 
+                [placeholder]="'Где заправлялись?'" 
+                [autocompleteObservable]="service.getField('fuelStation')"></app-input>
+  </div>
+
+  <div class="form-line-wrapper" *ngIf="1==2">
+    <div class="section">
+      <h3>
+        <mat-checkbox [(ngModel)]="isFuel" [color]="'primary'" name="isFuel">Заправились</mat-checkbox>
+      </h3>
+      <div class="fuel" *ngFor="let item of waybill.fuel; let i=index;" >
+        <mat-form-field class="matFormField">
+          <input matInput placeholder="Литров" [(ngModel)]="item.liters" name="{{'fuelLitres'+i}}">
+        </mat-form-field>
+  
+        <mat-form-field class="matFormField">
+          <input matInput placeholder="В рублях" [(ngModel)]="item.payment" name="{{'fuelCost'+i}}">
+        </mat-form-field>
+
+        <mat-form-field class="matFormField"
+                        [style.width]="'auto'">  
+          <input matInput   type="text" 
+                            placeholder="Где заправлялись?" 
+                            [(ngModel)]="item.station" 
+                            [matAutocomplete]="autoFuelStation"
+                            name="fuelStation">
+          <button mat-button *ngIf="item.station" matSuffix mat-icon-button aria-label="Clear" (click)="item.station=''">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-autocomplete #autoFuelStation="matAutocomplete" autoActiveFirstOption>
+            <mat-option *ngFor="let option of (service.getField('fuelStation')) | async" [value]="option">{{option}}</mat-option>
+          </mat-autocomplete>          
+        </mat-form-field>        
+      </div>
+      <p (click)="addFuel()">Еще заправлялись ...</p>
+    </div>
+  </div>
+  
+
+  <div class="form-line-wrapper">
+    <mat-form-field class="matFormField">
+      <input matInput placeholder="Расценка" [(ngModel)]="waybill.price" name="price">
+    </mat-form-field>
+
+    <mat-form-field class="matFormField">
+      <input matInput placeholder="Выручка" [(ngModel)]="waybill.revenue" name="revenue">
+    </mat-form-field>
+  </div>
+
+  <div class="form-line-wrapper">
+    <mat-form-field class="matFormField">
+      <input matInput placeholder="Расценка водителя" [(ngModel)]="waybill.rateDriver" name="rateDriver">
+    </mat-form-field>
+
+    <mat-form-field class="matFormField">
+      <input matInput placeholder="Зарплата водителя" [(ngModel)]="waybill.wageDriver" name="wageDriver">
+    </mat-form-field>
+  </div>
+  
+  <div class="form-line-wrapper">
+    <button mat-stroked-button (click)="save()" [disabled]="saving ? true : null" class="btnSave">
+      <span>Сохранить</span>
+    </button>
+    <button mat-stroked-button (click)="back()">Назад</button>
+    <button mat-stroked-button (click)="delete()">Удалить</button>
+    <mat-spinner [diameter]="20" [class.saving]="saving ? false : true" class="spinner"></mat-spinner>
+  </div>
+</div>  
+</form>
+

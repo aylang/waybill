@@ -1,0 +1,133 @@
+
+
+<div>
+  <table mat-table [dataSource]="dataSource" matSort MatPaginator class="mat-elevation-z8">
+
+    <ng-container matColumnDef="customer">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Заказчик </th>      
+      <td mat-cell *matCellDef="let element"> {{element.customer}} </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+    
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Дата/Смена </th>
+      <td mat-cell *matCellDef="let element"> {{element.date}} / {{element.shift}} </td>
+      <td mat-footer-cell *matFooterCellDef>  </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="shift">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Смена </th>
+      <td mat-cell *matCellDef="let element"> {{element.shift}} </td>
+      <td mat-footer-cell *matFooterCellDef>  </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="dump">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Гос № </th>
+      <td mat-cell *matCellDef="let element"> {{element.dump}} </td>
+      <td mat-footer-cell *matFooterCellDef>  </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="driver">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Водитель </th>
+      <td mat-cell *matCellDef="let element"> {{element.driver}} </td>
+      <td mat-footer-cell *matFooterCellDef>  </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="loading">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Загрузка </th>
+      <td mat-cell *matCellDef="let element"> {{element.loading}} </td>
+      <td mat-footer-cell *matFooterCellDef>  </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="unloading">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Выгрузка </th>
+      <td mat-cell *matCellDef="let element"> {{element.unloading}} </td>
+      <td mat-footer-cell *matFooterCellDef>  </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="distance">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Плечо </th>
+      <td mat-cell *matCellDef="let element"> {{element.distance}} </td>
+      <td mat-footer-cell *matFooterCellDef>  </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="ton">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Тонн </th>
+      <td mat-cell *matCellDef="let element"> {{element.ton}} </td>
+      <td mat-footer-cell *matFooterCellDef>  </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="cube">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Кубов </th>
+      <td mat-cell *matCellDef="let element"> {{element.cube}} </td>
+      <td mat-footer-cell *matFooterCellDef>  </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="hour">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Часов </th>
+      <td mat-cell *matCellDef="let element"> {{element.hour}} </td>
+      <td mat-footer-cell *matFooterCellDef>  </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="rides">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Рейсов </th>
+      <td mat-cell *matCellDef="let element"> {{element.rides}} </td>
+      <td mat-footer-cell *matFooterCellDef>  </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Расценка </th>
+      <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+      <td mat-footer-cell *matFooterCellDef>  </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="revenue">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Выручка </th>
+      <td mat-cell *matCellDef="let element"> {{element.revenue}} </td>
+      <td mat-footer-cell *matFooterCellDef>  </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="fuelLitres">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Заправка, л </th>
+      <td mat-cell *matCellDef="let element"> {{element.fuelLitres}} </td>
+      <td mat-footer-cell *matFooterCellDef>  </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="fuelCost">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Заправка, руб </th>
+      <td mat-cell *matCellDef="let element"> {{element.fuelCost}} </td>
+      <td mat-footer-cell *matFooterCellDef>  </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="fuelStation">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> АЗС </th>
+      <td mat-cell *matCellDef="let element"> {{element.fuelStation}} </td>
+      <td mat-footer-cell *matFooterCellDef>  </td>
+    </ng-container>
+
+    <ng-container matColumnDef="filter-customer">
+      <th mat-header-cell *matHeaderCellDef class="filter">
+        <app-input  [placeholder]="'Фильтр'" 
+                    (valueChange)="applyFilter($event)" 
+                    [appearance]="'outline'"></app-input>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="filter-date">
+      <th mat-header-cell *matHeaderCellDef class="filter">
+        <app-input  [placeholder]="'Фильтр'" 
+                    (valueChange)="applyFilter($event)" 
+                    [appearance]="'outline'"></app-input>
+      </th>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>  
+    <tr mat-header-row *matHeaderRowDef="['filter-customer', 'filter-date']"></tr>  
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+    <mat-paginator  [pageSizeOptions]="[5, 10, 20]" 
+                    [pageSize]="10"
+                    showFirstLastButtons
+                    #MatPaginator></mat-paginator>
+  </table>
+</div>

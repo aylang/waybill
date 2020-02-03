@@ -1,0 +1,9 @@
+<mat-form-field appearance="outline">
+  <input matInput
+      placeholder="Фильтр"    
+      [value]="value"  
+      [satDatepicker]="picker"
+      [formControl]="formControl">
+  <sat-datepicker #picker [rangeMode]="true" [selectFirstDateOnClose]="true"></sat-datepicker>
+  <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
+</mat-form-field>

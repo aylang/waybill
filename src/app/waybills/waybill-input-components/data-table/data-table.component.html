@@ -1,0 +1,239 @@
+<mat-tab-group class="tab" (selectedIndexChange)="setView($event)">
+  <mat-tab label="Сверка">
+    <!--<p>Сверка путевых листов с заказчиком</p>-->    
+  </mat-tab>
+  <mat-tab label="Наработано">
+    <!--<p>Финансовые показатели по путевкам</p>-->
+  </mat-tab>
+  <mat-tab label="Водитель">
+    <!--<p>Наработано водителем</p>-->
+  </mat-tab>
+</mat-tab-group>
+
+<div class="mat-elevation-z8 data-table">
+  <table  mat-table class="full-width-table" aria-label="Elements" 
+          matSort matSortActive="date" matSortDirection="desc" matSortDisableClear="true">
+    
+    <ng-container matColumnDef="customer">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header [class.selected]="isSorted('customer')" [width]="'10%'">Заказчик</th>
+      <td mat-cell *matCellDef="let row">{{row.customer}}</td>
+      <td mat-footer-cell *matFooterCellDef> ИТОГО </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header [class.selected]="isSorted('date')" [width]="'10%'">Дата</th>
+      <td mat-cell *matCellDef="let row">
+        <span *ngIf="row.date">{{row.date}}</span>
+        <span *ngIf="row.shift"> (Смена: {{row.shift}})</span>
+      </td>
+      <td mat-footer-cell *matFooterCellDef> </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="loading">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header [class.selected]="isSorted('loading')" [width]="'10%'">Погрузка</th>
+      <td mat-cell *matCellDef="let row">{{row.loading}}</td>
+      <td mat-footer-cell *matFooterCellDef> </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="unloading">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header [class.selected]="isSorted('unloading')" [width]="'10%'">Выгрузка</th>
+      <td mat-cell *matCellDef="let row">{{row.unloading}}</td>
+      <td mat-footer-cell *matFooterCellDef> </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="result">
+      <th mat-header-cell *matHeaderCellDef [width]="'40%'">Результат работы машины</th>
+      <td mat-cell *matCellDef="let row">
+        <p>
+          <span *ngIf="row.rides">
+            {{row.rides}}р
+          </span>
+          <span *ngIf="row.rides && row.distance">
+            на 
+          </span>
+          <span *ngIf="row.distance">
+            {{row.distance}}км
+          </span>
+        </p>
+        <p>
+          <span *ngIf="row.ton && !row.rides">
+            {{+row.ton}}т
+          </span>
+          <span *ngIf="row.ton && row.rides">
+            {{+row.ton*+row.rides}}т ({{row.rides}}р по {{row.ton}}т)
+          </span>
+        </p>
+        <p>
+          <span *ngIf="row.cube && !row.rides">
+            {{+row.cube}}м3
+          </span>
+          <span *ngIf="row.cube && row.rides">
+            {{+row.cube*+row.rides}}м3 ({{row.rides}}р по {{row.cube}}м3)
+          </span>
+        </p>
+        <p *ngIf="row.hour">
+          {{+row.hour}}ч
+        </p>
+      </td>
+      <td mat-footer-cell *matFooterCellDef>
+        <p *ngIf="dataSource.getTotalTon()  > 0">Тонн: {{dataSource.getTotalTon()}}</p> 
+        <p *ngIf="dataSource.getTotalCube() > 0">Кубов: {{dataSource.getTotalCube()}}</p> 
+      </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="dump">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header [class.selected]="isSorted('dump')" [width]="'10%'">Гос номер</th>
+      <td mat-cell *matCellDef="let row">{{row.dump}}</td>
+      <td mat-footer-cell *matFooterCellDef> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="driver">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header [class.selected]="isSorted('driver')" [width]="'10%'">Водитель</th>
+      <td mat-cell *matCellDef="let row">{{row.driver}}</td>
+      <td mat-footer-cell *matFooterCellDef> </td>
+    </ng-container>   
+
+    <ng-container matColumnDef="rides">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header [class.selected]="isSorted('rides')" [width]="'10%'">Рейсов</th>
+      <td mat-cell *matCellDef="let row">{{row.rides}}</td>
+      <td mat-footer-cell *matFooterCellDef> </td>
+    </ng-container>  
+
+    <ng-container matColumnDef="distance">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header [class.selected]="isSorted('distance')" [width]="'10%'">Плечо</th>
+      <td mat-cell *matCellDef="let row">{{row.distance}}</td>
+      <td mat-footer-cell *matFooterCellDef> </td>
+    </ng-container>  
+
+    <ng-container matColumnDef="hour">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header [class.selected]="isSorted('hour')" [width]="'10%'">Часов</th>
+      <td mat-cell *matCellDef="let row">{{row.hour}}</td>
+      <td mat-footer-cell *matFooterCellDef> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="rateDriver">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header [class.selected]="isSorted('rateDriver')" [width]="'10%'">Расценка водителя</th>
+      <td mat-cell *matCellDef="let row">{{row.rateDriver}}</td>
+      <td mat-footer-cell *matFooterCellDef> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="wageDriver">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header [class.selected]="isSorted('wageDriver')" [width]="'10%'">Зарплата водителя</th>
+      <td mat-cell *matCellDef="let row">{{row.wageDriver}}</td>
+      <td mat-footer-cell *matFooterCellDef>
+        <p *ngIf="dataSource.getTotalWageDriver()  > 0">{{dataSource.getTotalWageDriver()}}руб.</p> 
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header [class.selected]="isSorted('price')" [width]="'10%'">Расценка</th>
+      <td mat-cell *matCellDef="let row">{{row.price}}</td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="revenue">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header [class.selected]="isSorted('revenue')" [width]="'10%'">Выручка</th>
+      <td mat-cell *matCellDef="let row">{{row.revenue}}</td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+    
+    <ng-container matColumnDef="resultDriver">
+      <th mat-header-cell *matHeaderCellDef [width]="'40%'">База расчета водителя</th>
+      <td mat-cell *matCellDef="let row">
+        <p>
+          <span *ngIf="row.rides && row.distance">
+            {{+row.rides*+row.distance}}км
+          </span>
+        </p>
+        <p *ngIf="row.hour">
+          {{+row.hour}}ч
+        </p>
+      </td>
+      <td mat-footer-cell *matFooterCellDef>
+        <p *ngIf="dataSource.getTotalDistance()  > 0">Километров: {{dataSource.getTotalDistance()}}</p> 
+        <p *ngIf="dataSource.getTotalHour()  > 0">Часов: {{dataSource.getTotalHour()}}</p> 
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="filter_customer">
+      <th mat-header-cell *matHeaderCellDef class="filter">
+        <app-input  [placeholder]="'Фильтр'" 
+                    [value]="storeService.condition('customer') | async"
+                    (valueChange)="applyFilter($event, 'customer')" 
+                    [appearance]="'outline'"
+                    [width1]="'80pt'"
+                    [autocompleteObservable]="dataSource.getField('customer')"></app-input>
+      </th>
+    </ng-container>
+    
+    <ng-container matColumnDef="filter_date">
+      <th mat-header-cell *matHeaderCellDef class="filter">
+        <app-date-saturn 
+                    [value]="storeService.condition('date') | async"
+                    (valueChange)="applyFilter($event, 'date', 'range')"></app-date-saturn>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="filter_dump">
+      <th mat-header-cell *matHeaderCellDef class="filter">
+        <app-input  [placeholder]="'Фильтр'" 
+                    [value]="storeService.condition('dump') | async"
+                    (valueChange)="applyFilter($event, 'dump')" 
+                    [appearance]="'outline'"
+                    [width1]="'80pt'"
+                    [autocompleteObservable]="dataSource.getField('dump')"></app-input>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="filter_loading">
+      <th mat-header-cell *matHeaderCellDef class="filter">
+        <app-input  [placeholder]="'Фильтр'" 
+                    [value]="storeService.condition('loading') | async"
+                    (valueChange)="applyFilter($event, 'loading')" 
+                    [appearance]="'outline'"
+                    [width1]="'80pt'"
+                    [autocompleteObservable]="dataSource.getField('loading')"></app-input>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="filter_unloading">
+      <th mat-header-cell *matHeaderCellDef class="filter">
+        <app-input  [placeholder]="'Фильтр'" 
+                    [value]="storeService.condition('unloading') | async"
+                    (valueChange)="applyFilter($event, 'unloading')" 
+                    [appearance]="'outline'"
+                    [width1]="'80pt'"
+                    [autocompleteObservable]="dataSource.getField('unloading')"></app-input>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="filter_driver">
+      <th mat-header-cell *matHeaderCellDef class="filter">
+        <app-input  [placeholder]="'Фильтр'" 
+                    [value]="storeService.condition('driver') | async"
+                    (valueChange)="applyFilter($event, 'driver', 'startsWith')" 
+                    [appearance]="'outline'"
+                    [width1]="'80pt'"
+                    [autocompleteObservable]="dataSource.getField('driver')"></app-input>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="filter_empty">
+      <th mat-header-cell *matHeaderCellDef> </th>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="view.getDisplayedColumns()"></tr>
+    <tr mat-header-row *matHeaderRowDef="view.getDisplayedFilterColumns()"></tr>
+    <tr mat-row *matRowDef="let row; columns: view.getDisplayedColumns();" 
+                (dblclick)="selectWB(row)" 
+                (click)="marked(row)" 
+                [class.selected]="isSelected(row._id)"
+                [class.marked]="isMarked(row._id)"
+                ></tr>
+    <tr mat-footer-row *matFooterRowDef="view.getDisplayedColumns()"></tr>
+  </table>
+
+  <mat-paginator #paginator
+      [pageSizeOptions]="[5, 10, 15, 20, 50, 100]">
+  </mat-paginator>
+</div>

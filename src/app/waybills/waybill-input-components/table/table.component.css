@@ -1,0 +1,14 @@
+table {
+    width: 100%;
+}
+table td, table th {
+  vertical-align: middle;
+}
+div {
+  padding: 0 10pt;
+  margin-bottom: 20pt;
+}
+.filter {
+  padding-top: 10pt;
+}
+

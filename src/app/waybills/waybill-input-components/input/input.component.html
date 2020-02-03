@@ -1,0 +1,15 @@
+<mat-form-field class="matFormField"
+                appearance="{{appearance}}" 
+                [style.width]="width1?width1:'auto'"
+                [class.selected]="isFilled()">  
+  <input matInput   type="text" 
+                    placeholder="{{placeholder}}" 
+                    [formControl]="input" 
+                    [matAutocomplete]="auto">
+  <button mat-button *ngIf="input.value" matSuffix mat-icon-button aria-label="Clear" (click)="clear()">
+    <mat-icon>close</mat-icon>
+  </button>
+  <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
+    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{option}}</mat-option>
+  </mat-autocomplete>          
+</mat-form-field>

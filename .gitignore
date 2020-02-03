@@ -44,3 +44,9 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+.vscode/launch.json
+archive/200115-1.rar
+archive/200117-1.rar
+archive/200123-1.rar
+archive/waybill.rar
+package-lock.json

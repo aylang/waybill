@@ -1,0 +1,42 @@
+.data-table {
+  width: 95%;
+  margin: 0 auto;
+}
+table td, table th {
+  vertical-align: middle;
+}
+.mat-row {
+  cursor: pointer;
+}
+.full-width-table {
+  width: 100%;
+}
+h2, p {
+  width: 80%;
+  margin: 0 auto;
+}
+h2 {
+  margin-bottom: 10pt;
+}
+.mat-cell, .mat-header-cell {
+  padding: 0 10pt;
+}
+.mat-header-cell input {
+  width: 50pt;
+}
+.selected {
+  background-color: rgb(223, 244, 255);
+}
+.marked {
+  background-color: rgb(196, 233, 253);
+}
+.filter {
+  padding-top: 10pt;
+}
+.tab {
+  margin-left: 2.5%;
+  width: 95%;
+}
+.tab p {
+  margin: 20pt 0 0 18pt;
+}
